@@ -1,3 +1,4 @@
+import React from "react";
 import { Card } from "./components/Card";
 import { Header } from "./components/Header";
 import { Drawer } from "./components/Drawer";
@@ -26,10 +27,22 @@ const arr = [
 ];
 
 function App() {
+  const [cardOpened, setCardOpened] = React.useState(false);
+
   return (
     <div className="wrapper clear">
-      <Drawer />
-      <Header />
+      {cardOpened && (
+        <Drawer
+          onClose={() => {
+            setCardOpened(false);
+          }}
+        />
+      )}
+      <Header
+        onClickCard={() => {
+          setCardOpened(true);
+        }}
+      />
       <div className="content p-40">
         <div className="d-flex align-center mb-40 justify-between">
           <h1>Все кроссовки</h1>
@@ -45,7 +58,8 @@ function App() {
               title={obj.name}
               price={obj.price}
               imageUrl={obj.imageUrl}
-              onClick={() => console.log(obj)}
+              onPlus={() => console.log("Нажали Плюс")}
+              onFavorite={() => console.log("Добавили в закладки")}
             />
           ))}
         </div>
