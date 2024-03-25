@@ -1,4 +1,4 @@
-function Drawer(props) {
+function Drawer({ onClose, items = [] }) {
   return (
     <div className="overlay">
       <div className="drawer p-30">
@@ -10,54 +10,34 @@ function Drawer(props) {
             src="/img/btnRemuve.svg"
             alt="Close"
             className="imgRemuve cu-p"
-            onClick={props.onClose}
+            onClick={onClose}
           />
         </h2>
 
         <div className="items">
-          <div className="cartItem d-flex align-center mb-20">
-            <div
-              style={{ backgroundImage: "url(/img/sneakers/1.jpg)" }}
-              className="cartItemImg mr-20"
-            ></div>
-            <div className="flex">
-              <div>
-                <p>Мужские Кроссовки Nike Blazer Mid Suede</p>
-              </div>
-              <div className="d-flex align-center justify-between">
-                <b>12 999 rub.</b>
-                <img
-                  width={32}
-                  height={32}
-                  src="/img/btnRemuve.svg"
-                  alt="Remuve"
-                  className="imgRemuve"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="cartItem d-flex align-center mb-20">
-            <div
-              style={{ backgroundImage: "url(/img/sneakers/2.jpg)" }}
-              className="cartItemImg mr-20"
-            ></div>
-            <div className="flex">
-              <div>
-                <p>Мужские Кроссовки Nike Blazer Mid Suede</p>
-              </div>
-              <div className="d-flex align-center justify-between">
-                <b>12 999 rub.</b>
-                <img
-                  width={32}
-                  height={32}
-                  src="/img/btnRemuve.svg"
-                  alt="Remuve"
-                  className="imgRemuve"
-                />
+          {items.map((obj) => (
+            <div className="cartItem d-flex align-center mb-20">
+              <div
+                style={{ backgroundImage: `url(${obj.imageUrl})` }}
+                className="cartItemImg mr-20"
+              ></div>
+              <div className="flex">
+                <div>
+                  <p>{obj.title}</p>
+                </div>
+                <div className="d-flex align-center justify-between">
+                  <b>{obj.price} руб.</b>
+                  <img
+                    width={32}
+                    height={32}
+                    src="/img/btnRemuve.svg"
+                    alt="Remuve"
+                    className="imgRemuve"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          ))}
         </div>
 
         <div className="cartTotalBlock">

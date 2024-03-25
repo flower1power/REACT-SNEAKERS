@@ -3,41 +3,39 @@ import { Card } from "./components/Card";
 import { Header } from "./components/Header";
 import { Drawer } from "./components/Drawer";
 
-const arr = [
-  {
-    name: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 12999,
-    imageUrl: "/img/sneakers/1.jpg",
-  },
-  {
-    name: "Мужские Кроссовки Nike Air Max 270",
-    price: 12999,
-    imageUrl: "/img/sneakers/2.jpg",
-  },
-  {
-    name: "Мужские Кроссовки Nike Blazer Mid Suede",
-    price: 8499,
-    imageUrl: "/img/sneakers/3.jpg",
-  },
-  {
-    name: "Кроссовки Puma X Aka Boku Future Rider",
-    price: 8999,
-    imageUrl: "/img/sneakers/4.jpg",
-  },
-];
-
 function App() {
+  const [items, setItems] = React.useState([]);
+  const [cardItems, setCardItems] = React.useState([]);
+
   const [cardOpened, setCardOpened] = React.useState(false);
+
+  React.useEffect(() => {
+    fetch("https://65fc008d14650eb2100b42d0.mockapi.io/items")
+      .then((respons) => {
+        return respons.json();
+      })
+      .then((json) => {
+        setItems(json);
+      });
+  }, []);
+
+  const onAddToCard = (obj) => {
+    setCardItems(prev => [...prev, obj]);
+  };
+
+  console.log(cardItems);
 
   return (
     <div className="wrapper clear">
       {cardOpened && (
         <Drawer
+          items={cardItems}
           onClose={() => {
             setCardOpened(false);
           }}
         />
       )}
+
       <Header
         onClickCard={() => {
           setCardOpened(true);
@@ -52,13 +50,13 @@ function App() {
           </div>
         </div>
 
-        <div className="d-flex">
-          {arr.map((obj) => (
+        <div className="d-flex flex-wrap">
+          {items.map((item) => (
             <Card
-              title={obj.name}
-              price={obj.price}
-              imageUrl={obj.imageUrl}
-              onPlus={() => console.log("Нажали Плюс")}
+              title={item.name}
+              price={item.price}
+              imageUrl={item.imageUrl}
+              onPlus={(obj) => onAddToCard(obj)}
               onFavorite={() => console.log("Добавили в закладки")}
             />
           ))}
